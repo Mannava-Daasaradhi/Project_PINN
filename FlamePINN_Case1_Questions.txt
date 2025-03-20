@@ -1,0 +1,46 @@
+Title: Questions Regarding Case 1 Implementation in FlamePINN-1D
+
+Message:
+
+Hello,
+
+I am working on implementing Case 1 (Freely Propagating Simple Flame) using FlamePINN-1D and want to ensure that my implementation exactly follows the methodology used in the research paper. I have a few questions regarding the setup and would really appreciate any guidance.
+
+Forward PINN (Solving for T, rho, u, YF, omega, p)
+Boundary Conditions:
+
+Are Dirichlet conditions strictly enforced, or are they included as a soft loss term?
+Should the temperature gradient (dT/dx) at x=0 be strictly enforced?
+Neural Network Architecture:
+
+The provided code uses a 3-layer MLP (64 neurons per layer, tanh activation). Would increasing the number of layers improve accuracy?
+Would using sin activation instead of tanh improve performance for this case?
+Physics-Informed Loss Function:
+
+The energy equation includes omega (reaction rate). Should omega include a temperature threshold to prevent log(0) errors?
+How is the loss weight for PDE constraints vs. data loss chosen?
+Would it be beneficial to add pressure gradient constraints?
+Sampling & Data Normalization:
+
+The code uses Hammersley sampling for domain points. Is this the optimal approach, or would an alternative sampling strategy improve performance?
+Should temperature T(x) be normalized to [-1,1] instead of using physical units?
+Would extending Z-curve warm-up training beyond 1000 epochs improve convergence?
+Inverse PINN (Learning S_L from Data)
+How is S_L initialized in training?
+
+Should we start with S_L = 0.4 m/s, or should it be randomly initialized?
+Should we constrain S_L within a known range to prevent unphysical results?
+Handling Noisy Data:
+
+What noise level was used in the reference paper for T(x) and u(x)?
+Should the PINN only learn from sparse points, or should it use the entire dataset?
+PDE Constraints for S_L Learning:
+
+How strongly should the PDE be enforced in the loss function?
+Should we add a prior constraint based on empirical flame speed models?
+Equivalence Ratio (phi) Scaling:
+
+Should phi be normalized to [-1,1] for better network generalization?
+I would really appreciate any guidance you could provide to ensure my implementation matches the expected results.
+
+Thank you for your time.
